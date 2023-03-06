@@ -6,7 +6,7 @@ import java.io.*;
 public class UnitedStates
 {
 	// instance variables
-	private ArrayList <State> states;
+	private static ArrayList <State> states;
 	
 	public UnitedStates()
 	{
@@ -34,17 +34,81 @@ public class UnitedStates
 	 */
 	public void sortStates(int front, int back) {
 		
+		if (front < back) {
+			int mid = (front + back) / 2;
+			
+			sortStates(front,mid);
+			sortStates(mid+1, back);
+			
+			mergeTwoSortedArrays(front, mid, back);
+//			for (int i = 0; i < states.size(); i++) {
+//				
+//				for (int i2 = 0; i2 < frontEnd.size(); i2++) {
+//					
+//				states.set(i,  backEnd.get(i2));
+//				}
+//				for (int i2 = 0; i2 < backEnd.size(); i2++) {
+//					states.set(i,  backEnd.get(i2));
+//			}
+//				
+//		}
+	}
+}
+
+	public void mergeTwoSortedArrays(int front,int mid, int back) {
 		
+		State[] temp = new State[states.size()];
 		
+//		temp = new ArrayList <State> ();
+//		
+//		for (int i = front; i != back; i++) {
+//			temp.add(states.get(i));
+//			
+//		}
+		int i = front;
+		int j = mid + 1;
+		int k = front;
 		
+		while (i <= mid && j <= back) {
+			
 		
+			if (states.get(i).getName().compareTo(states.get(j).getName()) < 0) {
+				
+				State holder = states.get(i);
+				temp[k] = holder;
+				
+				i++;
+			}
+			else {
+				State holder = states.get(j);
+				temp[k] = holder;
+				j++;
+			}
+			k++;
+		}
 		
+		while (i <= mid) {
+			State holder = states.get(i);
+			temp[k] = holder;
+			i++;
+			k++;
+		}
+		while(j <= back) {
+			State holder = states.get(j);
+			temp[k] = holder;
+			j++;
+			k++;
+		}
 		
+		for (int i2 = front; i2 <= back; i2++) {
 		
+			states.set(i2,temp[i2]);
+			
+		}
 		
 	}
-	
-	
+
+
 	/*
 	 * Quick Sort
 	 * 
@@ -53,14 +117,37 @@ public class UnitedStates
 	 */
 	public void sortCapitals(int low, int high) {
 		
+	while (low < high) {
+		int split = partition(low,high);
 		
-		
-		
-		
-		
-		
+		sortCapitals(low,split);
+		sortCapitals(split + 1, high);
 	}
 	
+	}
+	public int partition(int low, int high) {
+		int pivot = states.get(0).getCapital().compareTo("a");
+		int bottom = low - 1;
+		int top = high + 1;
+		
+		while (bottom + 1 < pivot) {
+			
+			while (bottom + 1 < pivot) {
+				
+				while (top - 1 < pivot) {
+					
+					if (bottom == top) {
+						
+						return top;
+					}
+				}
+				State holder = states.get(bottom);
+				states.set(bottom, states.get(top));
+				states.set(top,  holder);
+			}
+		}
+		return 0;
+	}
 	
 	
 	
